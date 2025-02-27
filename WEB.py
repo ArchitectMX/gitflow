@@ -1,4 +1,4 @@
-from flask import Flask, send_file
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -52,6 +52,50 @@ def promotion_image():
                 <p>Мы сделаем обитаемыми безжизненные пока планеты.</p>
                 <p>И начнем с Марса!</p>
                 <p class="fw-bold">Присоединяйся!</p>
+            </div>
+        </body>
+    </html>
+    '''
+
+@app.route('/astronaut_selection', methods=['GET', 'POST'])
+def astronaut_selection():
+    if request.method == 'POST':
+        return "<h1>Форма отправлена!</h1>"
+    return '''
+    <html>
+        <head>
+            <title>Отбор астронавтов</title>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        </head>
+        <body>
+            <div class="container mt-5">
+                <h1 class="text-center">Анкета претендента</h1>
+                <h3 class="text-center">на участие в миссии</h3>
+                <form method="post" class="p-4 bg-light border rounded">
+                    <input type="text" class="form-control mb-2" placeholder="Введите фамилию" required>
+                    <input type="text" class="form-control mb-2" placeholder="Введите имя" required>
+                    <input type="email" class="form-control mb-2" placeholder="Введите адрес почты" required>
+                    <select class="form-control mb-2">
+                        <option>Начальное</option>
+                        <option>Среднее</option>
+                        <option>Высшее</option>
+                    </select>
+                    <label>Какие у Вас есть профессии?</label><br>
+                    <input type="checkbox"> Инженер-исследователь<br>
+                    <input type="checkbox"> Инженер-строитель<br>
+                    <input type="checkbox"> Пилот<br>
+                    <input type="checkbox"> Экзобиолог<br>
+                    <input type="checkbox"> Врач<br>
+                    <input type="checkbox"> Инженер по терраформированию<br>
+                    <label class="mt-2">Укажите пол</label><br>
+                    <input type="radio" name="gender" required> Мужской
+                    <input type="radio" name="gender"> Женский<br>
+                    <textarea class="form-control mt-2" placeholder="Почему Вы хотите принять участие в миссии?"></textarea>
+                    <label class="mt-2">Приложите фотографию</label>
+                    <input type="file" class="form-control mb-2">
+                    <input type="checkbox"> Готовы остаться на Марсе?<br>
+                    <button type="submit" class="btn btn-primary mt-2">Отправить</button>
+                </form>
             </div>
         </body>
     </html>
