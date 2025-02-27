@@ -1,0 +1,25 @@
+h1 {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+p {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+p:nth-of-type(1) { background-color: #b0d4e3; } /* Голубой */
+p:nth-of-type(2) { background-color: #fdfde0; } /* Светло-желтый */
+p:nth-of-type(3) { background-color: #f7c5c5; } /* Розовый */
+p:nth-of-type(4) { background-color: #fbe7a1; } /* Желтый */
+p:nth-of-type(5) { background-color: #d3b3d8; } /* Сиреневый */
