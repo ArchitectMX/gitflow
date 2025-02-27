@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template_string, request
 
 app = Flask(__name__)
 
@@ -100,6 +100,86 @@ def astronaut_selection():
         </body>
     </html>
     '''
+
+
+@app.route('/choice/<planet_name>')
+def choice(planet_name):
+    html_content = '''
+    <html>
+        <head>
+            <title>Выбор планеты для освоения</title>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        </head>
+        <body>
+            <div class="container mt-5">
+                <h1 class="text-center">Миссия Колонизации</h1>
+                <h2 class="text-center text-success">Выбор планеты: {{ planet_name }}</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Предлагаем начать освоение планеты <strong>{{ planet_name }}</strong></h3>
+                        <p class="card-text">Наша миссия направлена на освоение новых миров, и <strong>{{ planet_name }}</strong> — это наш следующий шаг. В ближайшие годы мы планируем начать подготовку для создания на этой планете первой человеческой колонии.</p>
+                        <p>Какие этапы предстоят нам?</p>
+                        <ul>
+                            <li>Этап 1: Изучение атмосферы и условий на планете.</li>
+                            <li>Этап 2: Создание обитаемых станций и терраформирование.</li>
+                            <li>Этап 3: Размещение первой группы исследователей и астронавтов.</li>
+                        </ul>
+                        <p class="mt-3">Присоединяйтесь к нашей миссии и помогите освоить {{ planet_name }}!</p>
+                        <p class="text-muted">Будущее человечества начинается с колонизации планет!</p>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>
+    '''
+
+    return render_template_string(html_content, planet_name=planet_name)
+
+
+@app.route('/results/<nickname>/<int:level>/<float:rating>')
+def results(nickname, level, rating):
+    if level < 1 or level > 5:
+        return "<h1>Ошибка! Уровень должен быть от 1 до 5.</h1>", 400
+    if rating < 0.0 or rating > 10.0:
+        return "<h1>Ошибка! Рейтинг должен быть от 0.0 до 10.0.</h1>", 400
+
+    if rating >= 8.0:
+        result_message = "Поздравляем! Вы прошли этот этап с отличием!"
+        result_class = "text-success"
+    elif rating >= 5.0:
+        result_message = "Хороший результат! Продолжайте в том же духе!"
+        result_class = "text-warning"
+    else:
+        result_message = "Не расстраивайтесь, вам нужно улучшить результаты для следующего этапа."
+        result_class = "text-danger"
+
+    html_content = '''
+    <html>
+        <head>
+            <title>Результаты отбора</title>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        </head>
+        <body>
+            <div class="container mt-5">
+                <h1 class="text-center">Результаты отбора на миссию</h1>
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">Претендент: {{ nickname }}</h2>
+                        <h3 class="text-success">Этап отбора: {{ level }}</h3>
+                        <p class="card-text">Рейтинг претендента: <strong>{{ rating }}</strong></p>
+                        <h4 class="{{ result_class }}">{{ result_message }}</h4>
+                        <p class="mt-3">Похоже, вы прошли этот этап успешно!</p>
+                        <p class="text-muted">Следующий шаг — готовность к подготовке на следующую планету!</p>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>
+    '''
+
+    return render_template_string(html_content, nickname=nickname, level=level, rating=rating,
+                                  result_message=result_message, result_class=result_class)
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080)
